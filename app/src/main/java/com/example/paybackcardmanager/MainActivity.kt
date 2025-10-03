@@ -19,11 +19,16 @@ class MainActivity : AppCompatActivity() {
     
     private fun setupUI() {
         binding.fabAddCard.setOnClickListener {
+            // Öffne AddCardActivity
             startActivity(Intent(this, AddCardActivity::class.java))
         }
         
-        // Zeige leeren Zustand an (vorerst)
-        binding.emptyState.visibility = android.view.View.VISIBLE
-        binding.recyclerViewCards.visibility = android.view.View.GONE
+        // Test: Direkt zur Barcode-Anzeige
+        binding.emptyState.setOnClickListener {
+            val intent = Intent(this, BarcodeDisplayActivity::class.java)
+            startActivity(intent)
+        }
+        
+        binding.emptyState.text = "Keine Karten gespeichert\n\nTippe auf + um eine Karte hinzuzufügen\n\nOder tippe hier um Test-Barcode anzuzeigen"
     }
 }
