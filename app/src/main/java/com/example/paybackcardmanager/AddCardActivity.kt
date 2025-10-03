@@ -1,32 +1,65 @@
 package com.example.paybackcardmanager
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.paybackcardmanager.databinding.ActivityAddCardBinding
 
 class AddCardActivity : AppCompatActivity() {
     
+    private lateinit var binding: ActivityAddCardBinding
+    private lateinit var cardManager: CardManager
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_card)
+        binding = ActivityAddCardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         
-        val btnSave = findViewById<Button>(R.id.btnSave)
-        val etCardName = findViewById<EditText>(R.id.etCardName)
-        val etCardNumber = findViewById<EditText>(R.id.etCardNumber)
+        cardManager = CardManager(this)
         
-        btnSave.setOnClickListener {
-            val cardName = etCardName.text.toString().trim()
-            val cardNumber = etCardNumber.text.toString().trim()
-            
-            if (cardName.isEmpty() || cardNumber.isEmpty()) {
-                Toast.makeText(this, "Bitte fülle alle Felder aus", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            
-            Toast.makeText(this, "Karte '$cardName' gespeichert!", Toast.LENGTH_SHORT).show()
-            finish()
+        setupToolbar()
+        setupClickListeners()
+    }
+    
+    private fun setupToolbar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Karte hinzufügen"
+    }
+    
+    private fun setupClickListeners() {
+        binding.btnSave.setOnClickListener {
+            saveCard()
         }
+    }
+    
+    private fun saveCard() {
+        val cardName = binding.etCardName.text.toString().trim()
+        val cardNumber = binding.etCardNumber.text.toString().trim()
+        val barcodeType = when {
+            binding.radioCode128.isChecked -> "CODE_128"
+            binding.radioQrCode.isChecked -> "QR_CODE"
+            else -> "CODE_128"
+        }
+        
+        if (cardName.isEmpty() || cardNumber.isEmpty()) {
+            Toast.makeText(this, "Bitte fülle alle Felder aus", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
+        val card = Card(
+            cardName = cardName,
+            cardNumber = cardNumber,
+            barcodeType = barcodeType
+        )
+        
+        cardManager.saveCard(card)
+        Toast.makeText(this, "Karte '$cardName' gespeichert!", Toast.LENGTH_SHORT).show()
+        finish()
+    }
+    
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }
