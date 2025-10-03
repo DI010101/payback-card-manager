@@ -1,3 +1,4 @@
+<!-- Build Trigger -->
 # Payback Card Manager
 
 Eine Android App zum Speichern und Anzeigen von Payback-Karten Barcodes.
