@@ -1,4 +1,3 @@
-kotlin
 package com.example.paybackcardmanager
 
 import android.view.LayoutInflater
@@ -27,7 +26,10 @@ class CardAdapter(
         
         init {
             binding.root.setOnClickListener {
-                onItemClick(getItem(adapterPosition))
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClick(getItem(position))
+                }
             }
         }
         
