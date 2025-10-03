@@ -33,5 +33,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: payback-card-manager
-        path: app/build/outputs/apk/release/*.apk
+        path: app/build/outputs/apk/release/app-release.apk
         retention-days: 30
