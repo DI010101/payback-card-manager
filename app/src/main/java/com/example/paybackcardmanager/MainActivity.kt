@@ -1,4 +1,3 @@
-kotlin
 package com.example.paybackcardmanager
 
 import android.content.Intent
@@ -47,7 +46,11 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             database.cardDao().getAllCards().collect { cards ->
                 adapter.submitList(cards)
-                binding.emptyState.visibility = if (cards.isEmpty()) android.view.View.VISIBLE else android.view.View.GONE
+                if (cards.isEmpty()) {
+                    binding.emptyState.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.emptyState.visibility = android.view.View.GONE
+                }
             }
         }
     }
