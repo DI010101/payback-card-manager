@@ -1,3 +1,4 @@
+yaml
 name: Build Android APK
 
 on:
@@ -23,15 +24,19 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       
-    - name: Make gradlew executable
-      run: chmod +x ./gradlew
-      
-    - name: Build APK
-      run: ./gradlew assembleRelease
+    - name: Build with Gradle
+      run: |
+        # Install Gradle
+        wget https://services.gradle.org/distributions/gradle-8.0-bin.zip
+        unzip gradle-8.0-bin.zip
+        export PATH=$PWD/gradle-8.0/bin:$PATH
+        
+        # Build APK
+        gradle assembleRelease
       
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
         name: payback-card-manager
-        path: app/build/outputs/apk/release/app-release.apk
+        path: app/build/outputs/apk/release/*.apk
         retention-days: 30
