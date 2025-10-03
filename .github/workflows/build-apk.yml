@@ -1,9 +1,9 @@
-yaml
-name: Build Android APK
+name: Build APK
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -25,16 +25,16 @@ jobs:
     - name: Build with Gradle
       run: |
         # Install Gradle
-        wget https://services.gradle.org/distributions/gradle-8.0-bin.zip
-        unzip gradle-8.0-bin.zip
+        wget -q https://services.gradle.org/distributions/gradle-8.0-bin.zip
+        unzip -q gradle-8.0-bin.zip
         export PATH=$PWD/gradle-8.0/bin:$PATH
         
         # Build APK
-        gradle assembleRelease
+        gradle assembleRelease --no-daemon
       
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: payback-card-manager
-        path: app/build/outputs/apk/release/*.apk
+        name: payback-app
+        path: app/build/outputs/apk/release/app-release.apk
         retention-days: 30
