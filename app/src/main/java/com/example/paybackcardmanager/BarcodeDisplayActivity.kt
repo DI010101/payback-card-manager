@@ -16,10 +16,13 @@ class BarcodeDisplayActivity : AppCompatActivity() {
     
     private lateinit var barcodeImage: ImageView
     private lateinit var cardNameText: TextView
+    private lateinit var cardManager: CardManager
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_barcode_display)
+        
+        cardManager = CardManager(this)
         
         // View Binding manuell
         barcodeImage = findViewById(R.id.barcode_image)
@@ -33,11 +36,27 @@ class BarcodeDisplayActivity : AppCompatActivity() {
         )
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         
-        // Test-Barcode anzeigen
-        cardNameText.text = "Test Karte"
-        displayBarcode("1234567890123", "CODE_128")
+        val cardId = intent.getLongExtra("CARD_ID", -1L)
+        if (cardId == -1L) {
+            Toast.makeText(this, "Karte nicht gefunden", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        
+        loadAndDisplayCard(cardId)
         
         findViewById<View>(R.id.root).setOnClickListener {
+            finish()
+        }
+    }
+    
+    private fun loadAndDisplayCard(cardId: Long) {
+        val card = cardManager.getCardById(cardId)
+        if (card != null) {
+            cardNameText.text = card.cardName
+            displayBarcode(card.cardNumber, card.barcodeType)
+        } else {
+            Toast.makeText(this, "Karte nicht gefunden", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
