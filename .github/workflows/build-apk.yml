@@ -29,12 +29,12 @@ jobs:
         unzip -q gradle-8.2-bin.zip
         export PATH=$PWD/gradle-8.2/bin:$PATH
         
-        # Build APK
-        gradle assembleRelease --no-daemon
+        # Build DEBUG APK (einfacher zu installieren)
+        gradle assembleDebug --no-daemon
       
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: payback-app
-        path: app/build/outputs/apk/release/*.apk
+        path: app/build/outputs/apk/debug/*.apk
         retention-days: 30
