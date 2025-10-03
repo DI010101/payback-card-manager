@@ -1,4 +1,4 @@
-name: Build APK
+name: Build Android APK
 
 on:
   push:
@@ -24,10 +24,10 @@ jobs:
       
     - name: Build with Gradle
       run: |
-        # Install Gradle
-        wget -q https://services.gradle.org/distributions/gradle-8.0-bin.zip
-        unzip -q gradle-8.0-bin.zip
-        export PATH=$PWD/gradle-8.0/bin:$PATH
+        # Install Gradle 8.2
+        wget -q https://services.gradle.org/distributions/gradle-8.2-bin.zip
+        unzip -q gradle-8.2-bin.zip
+        export PATH=$PWD/gradle-8.2/bin:$PATH
         
         # Build APK
         gradle assembleRelease --no-daemon
