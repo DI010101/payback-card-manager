@@ -1,4 +1,3 @@
-kotlin
 package com.example.paybackcardmanager
 
 import androidx.room.*
