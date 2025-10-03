@@ -1,14 +1,14 @@
-kotlin
 package com.example.paybackcardmanager
 
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.paybackcardmanager.databinding.ActivityBarcodeDisplayBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
@@ -16,13 +16,17 @@ import kotlinx.coroutines.launch
 
 class BarcodeDisplayActivity : AppCompatActivity() {
     
-    private lateinit var binding: ActivityBarcodeDisplayBinding
     private lateinit var database: AppDatabase
+    private lateinit var barcodeImage: ImageView
+    private lateinit var cardNameText: TextView
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityBarcodeDisplayBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_barcode_display)
+        
+        // View Binding manuell
+        barcodeImage = findViewById(R.id.barcode_image)
+        cardNameText = findViewById(R.id.card_name)
         
         // Vollbildmodus
         window.decorView.systemUiVisibility = (
@@ -43,7 +47,7 @@ class BarcodeDisplayActivity : AppCompatActivity() {
         
         loadAndDisplayCard(cardId)
         
-        binding.root.setOnClickListener {
+        findViewById<View>(R.id.root).setOnClickListener {
             finish()
         }
     }
@@ -52,7 +56,7 @@ class BarcodeDisplayActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val card = database.cardDao().getCardById(cardId)
             if (card != null) {
-                binding.cardName.text = card.cardName
+                cardNameText.text = card.cardName
                 displayBarcode(card.cardNumber, card.barcodeType)
             } else {
                 Toast.makeText(this@BarcodeDisplayActivity, "Karte nicht gefunden", Toast.LENGTH_SHORT).show()
@@ -69,7 +73,7 @@ class BarcodeDisplayActivity : AppCompatActivity() {
             }
             
             val bitmap = encodeAsBitmap(data, format)
-            binding.barcodeImage.setImageBitmap(bitmap)
+            barcodeImage.setImageBitmap(bitmap)
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "Fehler beim Generieren des Barcodes", Toast.LENGTH_SHORT).show()
