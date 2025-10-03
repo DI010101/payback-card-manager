@@ -8,15 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
-import kotlinx.coroutines.launch
 
 class BarcodeDisplayActivity : AppCompatActivity() {
     
-    private lateinit var database: AppDatabase
     private lateinit var barcodeImage: ImageView
     private lateinit var cardNameText: TextView
     
@@ -36,32 +33,12 @@ class BarcodeDisplayActivity : AppCompatActivity() {
         )
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         
-        database = AppDatabase.getInstance(this)
-        
-        val cardId = intent.getLongExtra("CARD_ID", -1L)
-        if (cardId == -1L) {
-            Toast.makeText(this, "Karte nicht gefunden", Toast.LENGTH_SHORT).show()
-            finish()
-            return
-        }
-        
-        loadAndDisplayCard(cardId)
+        // Test-Barcode anzeigen
+        cardNameText.text = "Test Karte"
+        displayBarcode("1234567890123", "CODE_128")
         
         findViewById<View>(R.id.root).setOnClickListener {
             finish()
-        }
-    }
-    
-    private fun loadAndDisplayCard(cardId: Long) {
-        lifecycleScope.launch {
-            val card = database.cardDao().getCardById(cardId)
-            if (card != null) {
-                cardNameText.text = card.cardName
-                displayBarcode(card.cardNumber, card.barcodeType)
-            } else {
-                Toast.makeText(this@BarcodeDisplayActivity, "Karte nicht gefunden", Toast.LENGTH_SHORT).show()
-                finish()
-            }
         }
     }
     
