@@ -11,7 +11,6 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.paybackwallet.databinding.ActivityScanBinding
 import com.google.mlkit.vision.barcode.Barcode
