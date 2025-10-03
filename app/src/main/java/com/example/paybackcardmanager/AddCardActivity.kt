@@ -1,4 +1,3 @@
-kotlin
 package com.example.paybackcardmanager
 
 import android.os.Bundle
