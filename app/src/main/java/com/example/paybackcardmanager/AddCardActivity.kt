@@ -1,16 +1,20 @@
-private lateinit var database: AppDatabase
+private lateinit var cardManager: CardManager
 
 override fun onCreate(savedInstanceState: Bundle?) {
     // ...
-    database = AppDatabase.getInstance(this)
+    cardManager = CardManager(this)
     // ...
 }
 
 private fun saveCard() {
     // ...
-    lifecycleScope.launch {
-        // ...
-        database.cardDao().insertCard(card)
-        // ...
-    }
+    val card = Card(
+        cardName = cardName,
+        cardNumber = cardNumber,
+        barcodeType = barcodeType
+    )
+    
+    cardManager.saveCard(card)
+    Toast.makeText(this, "Karte '$cardName' gespeichert!", Toast.LENGTH_SHORT).show()
+    finish()
 }
