@@ -47,6 +47,7 @@ class AddCardActivity : AppCompatActivity() {
             return
         }
         
+        // Karte speichern
         val card = Card(
             cardName = cardName,
             cardNumber = cardNumber,
