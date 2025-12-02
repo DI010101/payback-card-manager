@@ -22,22 +22,11 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       
-    - name: Clean build
-      run: |
-        # Clean vor dem Build
-        ./gradlew clean
-        # Lösche generierte Dateien
-        rm -rf app/build/generated
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
       
     - name: Build with Gradle
-      run: |
-        # Install Gradle 8.2
-        wget -q https://services.gradle.org/distributions/gradle-8.2-bin.zip
-        unzip -q gradle-8.2-bin.zip
-        export PATH=$PWD/gradle-8.2/bin:$PATH
-        
-        # Build APK
-        gradle assembleDebug --no-daemon
+      run: ./gradlew assembleDebug
       
     - name: Upload APK
       uses: actions/upload-artifact@v4
