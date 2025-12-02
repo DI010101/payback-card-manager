@@ -24,11 +24,9 @@ class BarcodeDisplayActivity : AppCompatActivity() {
         
         cardManager = CardManager(this)
         
-        // View Binding manuell
         barcodeImage = findViewById(R.id.barcode_image)
         cardNameText = findViewById(R.id.card_name)
         
-        // Vollbildmodus
         window.decorView.systemUiVisibility = (
             View.SYSTEM_UI_FLAG_FULLSCREEN or
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
