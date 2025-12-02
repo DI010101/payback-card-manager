@@ -17,14 +17,7 @@ class AddCardActivity : AppCompatActivity() {
         
         cardManager = CardManager(this)
         
-        setupToolbar()
         setupClickListeners()
-    }
-    
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Karte hinzufügen"
     }
     
     private fun setupClickListeners() {
@@ -36,31 +29,20 @@ class AddCardActivity : AppCompatActivity() {
     private fun saveCard() {
         val cardName = binding.etCardName.text.toString().trim()
         val cardNumber = binding.etCardNumber.text.toString().trim()
-        val barcodeType = when {
-            binding.radioCode128.isChecked -> "CODE_128"
-            binding.radioQrCode.isChecked -> "QR_CODE"
-            else -> "CODE_128"
-        }
         
         if (cardName.isEmpty() || cardNumber.isEmpty()) {
             Toast.makeText(this, "Bitte fülle alle Felder aus", Toast.LENGTH_SHORT).show()
             return
         }
         
-        // Karte speichern
         val card = Card(
             cardName = cardName,
             cardNumber = cardNumber,
-            barcodeType = barcodeType
+            barcodeType = "CODE_128"
         )
         
         cardManager.saveCard(card)
         Toast.makeText(this, "Karte '$cardName' gespeichert!", Toast.LENGTH_SHORT).show()
         finish()
-    }
-    
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
     }
 }
