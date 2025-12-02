@@ -1,4 +1,8 @@
 package com.example.paybackcardmanager
 
-// Diese Datei wird nicht mehr verwendet
-// Wurde ersetzt durch CardManager.kt für SharedPreferences Speicherung
+data class Card(
+    val id: Long = 0,
+    val cardNumber: String,
+    val cardName: String,
+    val barcodeType: String = "CODE_128"
+)
