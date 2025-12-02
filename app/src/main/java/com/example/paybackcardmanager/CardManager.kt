@@ -11,7 +11,7 @@ class CardManager(private val context: Context) {
     
     fun saveCard(card: Card) {
         val cards = getCards().toMutableList()
-        cards.add(card.copy(id = System.currentTimeMillis())) // Einfache ID-Generierung
+        cards.add(card.copy(id = System.currentTimeMillis()))
         saveCards(cards)
     }
     
