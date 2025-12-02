@@ -40,7 +40,7 @@ class CardAdapter(
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Card>() {
+    object DiffCallback : DiffUtil.ItemCallback<Card>() {
         override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean {
             return oldItem.id == newItem.id
         }
