@@ -17,15 +17,15 @@
             android:id="@+id/card_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-            android:text="Kartenname" />
+            android:text="Kartenname"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/card_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:text="Kartennummer" />
 
         <TextView
@@ -33,8 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            android:text="Barcode Typ" />
+            android:text="Barcode Typ"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" />
 
     </LinearLayout>
 
