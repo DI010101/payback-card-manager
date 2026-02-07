@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="Kartenname"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+        android:textSize="24sp"
         android:textColor="@android:color/black" />
 
     <ImageView
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Tippe zum Schließen"
-        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        android:textSize="14sp"
         android:textColor="@android:color/darker_gray" />
 
 </LinearLayout>
