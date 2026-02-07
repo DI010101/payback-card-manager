@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 ##############################################################################
 ##
@@ -6,11 +6,29 @@
 ##
 ##############################################################################
 
-# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-DEFAULT_JVM_OPTS='"-Xmx64m"'
+# Attempt to set APP_HOME
+# Resolve links: $0 may be a link
+PRG="$0"
+# Need this for relative symlinks.
+while [ -h "$PRG" ] ; do
+    ls=`ls -ld "$PRG"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '/.*' > /dev/null; then
+        PRG="$link"
+    else
+        PRG=`dirname "$PRG"`"/$link"
+    fi
+done
+SAVED="`pwd`"
+cd "`dirname \"$PRG\"`/" >/dev/null
+APP_HOME="`pwd -P`"
+cd "$SAVED" >/dev/null
 
 APP_NAME="Gradle"
 APP_BASE_NAME=`basename "$0"`
+
+# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
+DEFAULT_JVM_OPTS='"-Xmx64m"'
 
 # Use the maximum available, or set MAX_FD != -1 to use that value.
 MAX_FD="maximum"
@@ -84,10 +102,12 @@ if $darwin; then
     GRADLE_OPTS="$GRADLE_OPTS \"-Xdock:name=$APP_NAME\" \"-Xdock:icon=$APP_HOME/media/gradle.ico\""
 fi
 
-# For Cygwin, switch paths to Windows format before running java
-if $cygwin ; then
+# For Cygwin or MSYS, switch paths to Windows format before running java
+if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
     APP_HOME=`cygpath --path --mixed "$APP_HOME"`
     CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
+    JAVACMD=`cygpath --unix "$JAVACMD"`
+
     # We build the pattern for arguments to be converted via cygpath
     ROOTDIRSRAW=`find -L / -maxdepth 1 -mindepth 1 -type d 2>/dev/null`
     SEP=""
@@ -103,31 +123,36 @@ if $cygwin ; then
     # Now convert the arguments
     for i do
         #echo $i
-        arg=`echo "$i" | sed "s|^$OURCYGPATTERN|.|g"`
+        arg=`echo "$i" | sed "s|^$OURCYGPATTERN||"`
         case $i in
-          .*) ;;
-          *) arg="`cygpath --path --ignore --mixed "$arg"`" ;;
+          .*)
+            arg=`echo "$i" | sed "s|^$OURCYGPATTERN|.|"`
+            ;;
+          *)
+            arg="`cygpath --path --ignore --mixed "$arg"`"
+            ;;
         esac
-        echo "arg: $arg"
+        # Roll the args list around keeping the quoted string together
+        if [ -z "$append" ] ; then
+            append="$arg"
+        else
+            append="$append $arg"
+        fi
     done
+    if [ -n "$append" ] ; then
+        JAVACMD="$JAVACMD $append"
+    fi
 fi
 
-# Split on equals, prepend "JAVA_OPTS=" to the part before the equals,
-# and append the part after the equals onto the current JAVA_OPTS
-JAVA_OPTS_ARRAY=()
-for opt in $JAVA_OPTS; do
-    case $opt in
-        -D*)
-            JAVA_OPTS_ARRAY+=("$opt")
-            ;;
-        *)
-            echo "Warning: Unsupported JVM option: $opt" >&2
-            ;;
-    esac
-done
+# Escape application args
+save () {
+    for i do printf %s\\n "$i" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/' \\\\/" ; done
+    echo " "
+}
+APP_ARGS=$(save "$@")
 
 # Collect all arguments for the java command, following the shell quoting and substitution rules
-eval set -- $DEFAULT_JVM_OPTS $JAVA_OPTS "${JAVA_OPTS_ARRAY[@]}" -classpath "\"$CLASSPATH\"" org.gradle.wrapper.GradleWrapperMain "$APP_ARGS"
+eval set -- $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS -classpath "\"$CLASSPATH\"" org.gradle.wrapper.GradleWrapperMain "$APP_ARGS"
 
 # by default we should be in the "project root" related to the script
 cd "$APP_HOME"
